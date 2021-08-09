@@ -41,7 +41,6 @@ create table movement (
 	value decimal(10,2) not null,
 	id_product int,
 	primary key (id),
-	foreign key (id_product) references company(id)
+	foreign key (id_product) references product(id)
 );
-
 
