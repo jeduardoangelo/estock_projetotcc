@@ -16,16 +16,6 @@ create table user_register (
 	foreign key (id_company) references company(id)
 );
 
-create table product (
-	id int auto_increment not null,
-	name varchar(32) not null,
-	ncm varchar(8) not null,
-	amount int not null,
-	metric varchar(12) not null,
-	average_cost decimal(10,2) not null,
-	primary key (id)
-);
-
 create table supplier (
 	id int auto_increment not null,
 	name varchar(32) not null,
@@ -35,12 +25,27 @@ create table supplier (
 
 create table movement (
 	id int auto_increment not null,
+	id_user_register int,
+	id_supplier int,
 	`date` date not null,
 	amout int not null,
 	`type` tinyint not null check (`type` in (1,2,3)),
 	value decimal(10,2) not null,
 	id_product int,
 	primary key (id),
-	foreign key (id_product) references product(id)
+	foreign key (id_product) references product(id),
+	foreign key (id_user_register) references user_register(id),
+	foreign key (id_supplier) references supplier(id)
 );
+
+create table product (
+	id int auto_increment not null,
+	name varchar(32) not null,
+	ncm varchar(8) not null,
+	amount int not null,
+	metric varchar(12) not null,
+	average_cost decimal(10,2) not null,
+	primary key (id)	
+);
+
 
