@@ -8,5 +8,8 @@
 </head>
 <body>
     Listagem de Fornecedores
+
+    <?php dd($suppliers) ?>
+
 </body>
 </html>
