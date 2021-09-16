@@ -25,6 +25,7 @@ class SupplierController extends BaseController
         $name = $request->input('name');
         $cnpj = $request->input('cnpj');
         Supplier::update($id, $name, $cnpj);
+        return redirect('/supplier/');
     }
     public function delete(Request $request){
         $id = $request->input('id');
