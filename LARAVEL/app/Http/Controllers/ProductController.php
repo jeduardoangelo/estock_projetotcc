@@ -18,10 +18,20 @@ class ProductController extends BaseController
         return redirect('/product/');
     }
     public function list(){
-        $product = Product::list();
+        $products = Product::list();
         return view("productlist", [
-            "product" => $product
+            "products" => $products
         ]);
+    }
+    public function update(Request $request){
+        $id = $request->input('id');
+        $name = $request->input('name');
+        $ncm = $request->input('ncm');
+        $amount = $request->input('amount');
+        $metric = $request->input('metric');
+        $average_cost = $request->input('average_cost');
+        Product::update($id, $name, $ncm, $amount, $metric, $average_cost);
+        return redirect('/product/');
     }
     public function delete(Request $request){
         $id = $request->input('id');
