@@ -1,0 +1,139 @@
+body,
+h1,
+h2,
+p,
+ul,
+li,
+a {
+    margin: 0px;
+    padding: opx;
+}
+
+body {
+    font-family: Helvetica, Arial, sans-serif;
+    color: #222;
+}
+
+li {
+    list-style: none;
+}
+
+a {
+    text-decoration: none;
+}
+
+img {
+    display: block;
+    max-width: 100%;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+.header-bg {
+    background: #ccc;
+}
+
+.head {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 15px 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    width: 10em;
+}
+
+.menu-nav ul {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.menu-nav a {
+    color: black;
+    font-size: 1, 25em;
+    display: block;
+    padding: 10px;
+    text-decoration: none;
+}
+
+.menu-nav a:hover {
+    color: red;
+}
+
+.sub-menu {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 25px 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.title {
+    font-size: 1em;
+    line-height: 1;
+    max-width: 1280px;
+    margin: 0 auto;
+}
+
+.btn-product {
+    width: 10%;
+    height: 4em;
+    background-color: none;
+    border: 1px;
+    border-radius: 8px;
+    color: black;
+    padding: 8px;
+    margin: 0px 5px;
+    text-align: center;
+    text-decoration: none;
+    font-weight: 600;
+    display: inline-block;
+    font-size: 1em;
+    transition-duration: 0.4s;
+}
+
+.btn-ncm {
+    width: 10%;
+    height: 4em;
+    background-color: none;
+    border: 1px;
+    border-radius: 8px;
+    color: black;
+    padding: 8px;
+    margin: 0px 5px;
+    text-align: center;
+    text-decoration: none;
+    font-weight: 600;
+    display: inline-block;
+    font-size: 1em;
+    transition-duration: 0.4s;
+}
+
+.btn-product:hover {
+    background-color: black;
+    color: white;
+}
+
+.btn-ncm:hover {
+    background-color: black;
+    color: white;
+}
+
+.info-products {
+    border: 1px solid red;
+    max-width: 1280px;
+    text-align: center;
+    text-decoration: none;
+    margin: 0;
+    display: inline-block;
+    align-items: center;
+    padding: 10px 45px;
+}

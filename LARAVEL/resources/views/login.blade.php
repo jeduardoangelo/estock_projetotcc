@@ -10,14 +10,14 @@
 </head>
 
 <body>
-    <form class="form">
+    <form class="form-login">
         <h1>Login</h1>
         <div class="form-group txt-login">
-            <label for="">Usuário</label>
-            <input type="text" name="user" id="email" placeholder="Digite o seu login" autocomplete="off">
+            <label for="login">Usuário</label>
+            <input type="text" name="user" id="login" placeholder="Digite o seu login" autocomplete="off">
         </div>
         <div class="form-group txt-password">
-            <label for="">Senha</label>
+            <label for="password">Senha</label>
             <input type="password" name="password" id="password" placeholder="Digite sua senha">
         </div>
         <input type="submit" value="Login">

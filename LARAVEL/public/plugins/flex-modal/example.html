@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flex Modal</title>
+    <link rel="stylesheet" href="flex-modal.css">
+    <script src="flex-modal.js"></script>
+    <style>
+        body { margin: 0; padding: 20px; }
+    </style>
+</head>
+<body>
+    
+    <h1>Flex Modal</h1>
+
+    <p>
+        Plugin que exibe um modal. Seu comportamento e conteúdo é todo configurado em javascript.
+    </p> <br>
+
+    <div>
+        <div>
+            <button type="button" onclick="showModalSimples()">Simples</button>
+            Modal que exibe um texto
+        </div><br>
+
+        <div>
+            <button type="button" onclick="showModalHtml()">HTML</button>
+            Modal que exibe um HTML
+        </div><br>
+
+        <div>
+            <button type="button" onclick="showModalViaTarget()">Via Target</button>
+            Modal que exibe um elemento da própria página
+        </div><br>
+
+        <div>
+            <button type="button" onclick="showModalOnlyContent()">Só conteúdo</button>
+            Modal que exibe o conteúdo sem a borda da janela
+        </div><br>
+
+        <div>
+            <button type="button" onclick="showModalByTheme('error')">Erro</button>
+            <button type="button" onclick="showModalByTheme('warning')">Aviso</button>
+            <button type="button" onclick="showModalByTheme('success')">Sucesso</button>
+            Modal com cor diferente
+        </div><br>
+
+        <div>
+            <button type="button" onclick="showModalWithCloseAction()">Ação ao fechar</button>
+            Modal que dispara um evento depois que ele é fechado
+        </div><br>
+
+        <div>
+            <button type="button" onclick="showModalYN()">Sim ou Não</button>
+            Modal que exibe uma pergunta com uma resposta binária: sim ou não.
+        </div><br>
+
+        <div>
+            <button type="button" onclick="showModalFreeAnswer()">Resposta Livre</button>
+            Modal que exibe uma pergunta com uma resposta livre que o próprio usuário digita.
+        </div><br>
+        
+    </div>
+
+    <div style="display: none;">
+        <div id="modalFormulario">
+            <form action="" style="padding: 20px; text-align: center;">
+                <span>
+                    Num modal exibido via target, o conteúdo <br>
+                    deve ser feito dentro de uma div invisível.
+                </span>
+                <br> <br>
+                <input type="text" placeholder="Nome"> <br>
+                <input type="text" placeholder="E-mail"> <br>
+                <input type="text" placeholder="Senha">
+                <br><br>
+                <button>Enviar</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function showModalSimples()
+        {
+            FlexModal.show({
+                title: "Simples",
+                content: "Conteúdo do modal feito com texto simples",
+            });
+        }
+
+        function showModalHtml()
+        {
+            FlexModal.show({
+                title: "HTML",
+                content: `
+                    <div style="text-align: left">
+                        <h3 style="margin: 0 5px;">
+                            Um modal com HTML <br>
+                            inserido direto no conteúdo
+                        </h3>
+                        <ul>
+                            <li><a href="#">Link 1</a></li>
+                            <li><a href="#">Link 2</a></li>
+                            <li><a href="#">Link 3</a></li>
+                        </ul>
+                    </div>
+                `,
+            });
+        }
+
+        function showModalViaTarget()
+        {
+            FlexModal.show({
+                title: "Simples",
+                target: "#modalFormulario",
+            });
+        }
+
+        function showModalOnlyContent()
+        {
+            FlexModal.show({
+                onlyContent: true,
+                content: "<img src='https://clipground.com/images/splash-png-free-1.png'>",
+            });
+        }
+
+        function showModalByTheme(theme)
+        {
+            FlexModal.show({
+                title: "Temático",
+                theme: theme,
+                content: "Modal com tema pré pronto",
+            });
+        }
+
+        function showModalWithCloseAction()
+        {
+            FlexModal.show({
+                title: "Ação ao fechar",
+                content: "Feche esta janela para ver o que acontece.",
+                afterClose: () => {
+                    console.log("O modal foi fechado");
+                    alert("O modal foi fechado");
+                },
+            });
+        }
+
+        function showModalYN()
+        {
+            FlexModal.showYesNo({
+                title: "Confirme sua escolha",
+                question: "Tem certeza de que deseja prosseguir com a solicitação?",
+                yes: {
+                    text: "Sim, prosseguir.",
+                    class: "btn primary",
+                },
+                no: {
+                    text: "Cancelar.",
+                    class: "btn secundary",
+                }
+            })
+            .then((affirmative) => {
+
+                // affirmative = true => Clicou em sim
+                if(affirmative) alert("Confirmou a ação");
+
+            });
+        }
+
+        function showModalFreeAnswer()
+        {
+            FlexModal.showInputRequest({
+                title: "Por favor, responda",
+                content: "Imagine que tem uma pergunta aqui",
+                input: {
+                    required: true,
+                    maxlength: 30,
+                    placeholder: "Digite sua resposta aqui",
+                },
+                btnOk: {
+                    text: "Enviar",
+                    class: "button primary",
+                },
+                btnCancel: {
+                    text: "Cancelar",
+                    class: "button secundary",
+                }
+            })
+            .then((response) => {
+                alert("Resposta: " + response);
+            });
+        }
+    </script>
+
+</body>
+</html>
+

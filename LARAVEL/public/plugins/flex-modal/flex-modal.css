@@ -1,0 +1,144 @@
+.flexModalOverlay {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0,0,0,0.7);
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1060;
+    animation-name: flexModalOverlayAnimation;
+    animation-duration: 0.5s;
+    padding: 20px;
+}
+  
+@keyframes flexModalOverlayAnimation {
+    0%   { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+.flexModal {
+    display: flex;
+    flex-direction: column;
+    background-color: #FFF;
+    border-radius: 10px;
+    box-shadow: 0 0 6px 3px rgba(0, 0, 0, 0.3);
+    animation-name: flexModalAnimation;
+    animation-duration: 0.5s;
+    max-width: calc(100vw - 40px);
+    max-height: calc(100vh - 40px);
+    border-radius: 10px;
+    outline: none;
+}
+
+@keyframes flexModalAnimation {
+    0%   { transform: scale(0);   }
+    80%  { transform: scale(1.1); }
+    100% { transform: scale(1);   }
+}
+
+.flexModalTitle {
+    display: flex;
+    flex-direction: row;
+    background-color: #444;
+    border-radius: 8px 8px 0px 0px;
+}
+
+.flexModalTitleText {
+    flex: 1;
+    padding: 10px;
+    color: #FFF;
+    font-size: 85%;
+    font-weight: bold;
+}
+
+.flexModalTitleBtnClose {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 15px;
+    color: #FFF;
+    cursor: pointer;
+    transition: 0.3s;
+    line-height: 1;
+}
+
+.flexModalTitleBtnClose:hover {
+    background-color: red;
+    border-radius: 0px 8px 0px 0px;
+}
+
+.flexModalBody {
+    color: #444;
+    border-radius: 0px 0px 8px 8px;
+    overflow: auto;
+    line-height: 1.5;
+}
+
+.flexModalOverlay.closing {
+    animation-name: flexModalOverlayClosingAnimation;
+    animation-duration: 0.5s;
+    animation-fill-mode: forwards;  
+}
+
+.flexModalOverlay.closing .flexModal {
+    animation-name: flexModalClosingAnimation;
+    animation-duration: 0.5s;
+    animation-fill-mode: forwards;  
+}
+
+@keyframes flexModalOverlayClosingAnimation {
+    0%   { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+@keyframes flexModalClosingAnimation {
+    0%   { transform: scale(1);   }
+    20%  { transform: scale(1.1); }
+    100% { transform: scale(0);   }
+}
+
+.flexModal.error .flexModalTitle { background-color: red; }
+.flexModal.error .flexModalBody { color: red; }
+
+.flexModal.warning .flexModalTitle { background-color: orange; }
+.flexModal.warning .flexModalBody { color: orange; font-weight: bold; }
+
+.flexModal.success .flexModalTitle { background-color: green; }
+.flexModal.success .flexModalBody { color: green; }
+
+.flexModalYesNoContent {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
+}
+
+.flexModalYesNoBoxButtons {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin: -10px;
+    margin-top: 10px;
+}
+
+.flexModalYesNoBoxButtons > * {
+    margin: 10px;
+}
+
+.flexModalFormInputRequest {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+}
+
+.flexModalFormInputRequest > * + * {
+    margin-top: 20px;
+}
