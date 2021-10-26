@@ -8,6 +8,7 @@
     <title>Document</title>
     <link rel="stylesheet" href="\plugins\flex-modal\flex-modal.css">
     <script src="\plugins\flex-modal\flex-modal.js"></script>
+    <script src="\script.js"></script>
 </head>
 
 <body>
@@ -43,7 +44,20 @@
                 <td>{{ $s->name }}</td>
                 <td>{{ $s->cnpj }}</td>
                 <td>
-                    <button>Alterar</button>
+                <div onclick="showModalUpdate(this)" class="btn">Alterar
+                        <div style="display: none;">
+                            <form class="form-update" action="/supplier/update">
+                                <input type="hidden" name="id" value="{{ $s->id }}">
+                                <div class="form-group input-info">
+                                    <label for="name">Nome:</label>
+                                    <input type="text" name="name" id="name" value="{{ $s->name }}"><br>
+                                    <label for="cnpj">CNPJ:</label>
+                                    <input type="text" name="cnpj" id="cnpj" value="{{ $s->cnpj }}">
+                                </div>
+                                <input type="submit" value="Alterar">
+                            </form>
+                        </div>
+                    </div>
                     <a href="/supplier/delete?id={{$s->id}}">Excluir</a>
                 </td>
             </tr>
@@ -56,6 +70,13 @@
             FlexModal.show({
                 title: "Cadastro de Fonecedores",
                 target: "#form-create",
+            });
+        }
+
+        function showModalUpdate(btn) {
+            FlexModal.show({
+                title: "Alteração",
+                target: btn.querySelector(".form-update"),
             });
         }
     </script>
