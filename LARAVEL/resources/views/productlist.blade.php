@@ -1,137 +1,143 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends("layout")
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Listagem de Produtos | estock</title>
-    <link rel="stylesheet" href="\plugins\flex-modal\flex-modal.css">
-    <script src="\plugins\flex-modal\flex-modal.js"></script>
-    <script src="\script.js"></script>
-    <link rel="stylesheet" href=<?php echo asset('css\style_productlist.css') ?>>
-</head>
+@section("content")
+<div class="top ">
+    <div class="title">
+        <h1>Cadastro de Produtos</h1>
+    </div>
+    <div>
+        <button class="btn-top" onclick="showModalCreate()">Importar</button>
+        <button class="btn-top" onclick="showModalCreate()">+ Produto</button>
+    </div>
+</div>
 
-<body>
-    <header class="header">
-        <div class="logo">
-            <img src="\images\img-marca.png" alt="logo">
+<div style="display: none;">
+    <form id="form-create" action="/product/create">
+        <div class="form-row">
+            <div class="form-column">
+                <label for="name">Nome do Produto:</label>
+                <input type="text" name="name" id="name" required>
+            </div>
+            <div class="form-column">
+                <label for="ncm">NCM:</label>
+                <input type="text" name="ncm" id="ncm" required>
+            </div>
+            <div class="form-column">
+                <label for="metric">Unidade Métrica:</label>
+                <select name="metric" required>
+                    <option value=""></option>
+                    <option value="m">Metro</option>
+                    <option value="kg">Quilo</option>
+                    <option value="lt">Litro</option>
+                    <option value="un">Unidade</option>
+                </select>
+            </div>
+            <div class="form-column button-modal">
+                <input class="btn-okay" type="submit" value="Cadastrar">
+            </div>
+            <div class="form-column button-modal">
+                <input class="btn-cancel" type="button" value="Cancelar" onclick="FlexModal.selfClose(event)">
+            </div>
         </div>
-
-        <nav class="menu">
-            <a href="#">Dashboard</a>
-            <a href="#">Cadastro de Produtos</a>
-            <a href="#">Controle de Estoque</a>
-            <a href="#">Cadastro de Fornecedor</a>
-            <a href="#">Configurações</a>
-        </nav>
+    </form>
+</div>
+<div class="body-info">
+    <form action="#">
+        <input type="text" name="search" id="search" placeholder="&#x1F50E;Pesquisar por ID, nome ou NCM">
         <div class="empty"></div>
-        <div class="user">
-            <img src="\images\pic-profile.jpg" alt="pic-profile">
-            <span>
-                Eduardo
-            </span>
-        </div>
-
-    </header>
-
-    <div class="all">
-
-        <div class="top ">
-            <div class="title">
-                <h1>Cadastro de Produtos</h1>
-            </div>
-            <div class="btn-top">
-            <button class="btn-product" onclick="showModalCreate()">Adicionar Produtos</button>
-            <button class="btn-ncm" onclick="showModalCreate()">Nota Fiscal</button>
-            </div>
-        </div>
-
-        <div style="display: none;">
-            <form id="form-create" action="/product/create">
-                <div class="form-group input-info">
-                    <label for="name">Nome do Produto:</label>
-                    <input type="text" name="name" id="name"><br>
-                    <label for="ncm">NCM:</label>
-                    <input type="text" name="ncm" id="ncm"><br>
-                    <label for="metric">Unidade Métrica:</label>
-                    <select name="metric">
-                        <option value=""></option>
-                        <option value="m">Metro</option>
-                        <option value="kg">Quilo</option>
-                        <option value="lt">Litro</option>
-                        <option value="un">Unidade</option>
-                    </select>
-                </div>
-                <input type="submit" value="Cadastrar">
-            </form>
-        </div>
-
-        <table class="info-products">
-            <thead>
-                <tr>
-                    <th>Nome</th>
-                    <th>NCM</th>
-                    <th>Quantidade</th>
-                    <th>Custo Médio</th>
-                    <th>Ações</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach($products as $p)
-                <tr>
-                    <td>{{ $p->name }}</td>
-                    <td>{{ $p->ncm }}</td>
-                    <td>{{ $p->amount ?? 0 }} {{ $p->metric }}</td>
-                    <td>R$ {{ number_format($p->average_cost,2,",",".")}}</td>
-                    <td>
-                        <div onclick="showModalUpdate(this)" class="btn">Alterar
-                            <div style="display: none;">
-                                <form class="form-update" action="/product/update">
-                                    <input type="hidden" name="id" value="{{ $p->id }}">
-                                    <div class="form-group input-info">
+        <span>Organizar por &nbsp;</span>
+        <select name="organize" id="organize">
+            <option value="cadastro">data de cadastro</option>
+            <option value="alfabeto">nome</option>
+        </select>
+    </form>
+    <table class="info-products">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>NCM</th>
+                <th>Quantidade</th>
+                <th>Custo Médio</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach($products as $p)
+            <tr>
+                <td>{{ $p->id }}</td>
+                <td>{{ $p->name }}</td>
+                <td>{{ $p->ncm }}</td>
+                <td>{{ $p->amount ?? 0 }} {{ $p->metric }}</td>
+                <td>R$ {{ number_format($p->average_cost,2,",",".")}}</td>
+                <td class="icons">
+                    <div onclick="showModalUpdate(this)" class="btn">
+                        <span class="material-icons-outlined" id="edit">
+                            edit
+                        </span>
+                        <div style="display: none;">
+                            <form class="form-update" action="/product/update">
+                                <input type="hidden" name="id" value="{{ $p->id }}">
+                                <div class="form-row">
+                                    <div class="form-column">
                                         <label for="name">Nome do Produto:</label>
-                                        <input type="text" name="name" id="name" value="{{ $p->name }}"><br>
+                                        <input type="text" name="name" id="name" required value="{{ $p->name }}">
+                                    </div>
+                                    <div class="form-column">
                                         <label for="ncm">NCM:</label>
-                                        <input type="text" name="ncm" id="ncm" value="{{ $p->ncm }}"><br>
+                                        <input type="text" name="ncm" id="ncm" required value="{{ $p->ncm }}">
+                                    </div>
+                                    <div class="form-column">
                                         <label for="metric">Unidade Métrica:</label>
-                                        <select name="metric" data-value="{{ $p->metric }}">
+                                        <select name="metric" required data-value="{{ $p->metric }}">
                                             <option value=""></option>
                                             <option value="m">Metro</option>
                                             <option value="kg">Quilo</option>
                                             <option value="lt">Litro</option>
+                                            <option value="un">Unidade</option>
                                         </select>
                                     </div>
-                                    <input type="submit" value="Alterar">
-                                </form>
-                            </div>
+                                    <div class="form-column button-modal">
+                                        <input class="btn-okay" type="submit" value="Alterar">
+                                    </div>
+                                    <div class="form-column button-modal">
+                                        <input class="btn-cancel" type="button" value="Cancelar" onclick="FlexModal.selfClose(event)">
+                                    </div>
+                                </div>
+                            </form>
                         </div>
-                        <a href="/product/delete?id={{$p->id}}">Excluir</a>
-                    </td>
-                </tr>
-                @endforeach
-            </tbody>
-        </table>
-
+                    </div>
+                    <a href="/product/delete?id={{$p->id}}">
+                        <span class="material-icons-outlined" id="delete">
+                            backspace
+                        </span>
+                    </a>
+                </td>
+            </tr>
+            @endforeach
+        </tbody>
+    </table>
+    <div class="exibition">
+        <span>Exibindo&nbsp;</span>
+        <select name="" id="">
+            <option value="">1-10 de 89 </option>
+        </select>
     </div>
+</div>
 
-    <script>
-        function showModalCreate() {
-            FlexModal.show({
-                title: "Cadastro de Produtos",
-                target: "#form-create",
-            });
-        }
+<script>
+    function showModalCreate() {
+        FlexModal.show({
+            title: "Cadastro de Produtos",
+            target: "#form-create",
+        });
+    }
 
-        function showModalUpdate(btn) {
-            FlexModal.show({
-                title: "Alteração",
-                target: btn.querySelector(".form-update"),
-            });
-        }
-    </script>
-
-
-</body>
-
-</html>
+    function showModalUpdate(btn) {
+        FlexModal.show({
+            title: "Alteração",
+            target: btn.querySelector(".form-update"),
+        });
+    }
+</script>
+@endsection
