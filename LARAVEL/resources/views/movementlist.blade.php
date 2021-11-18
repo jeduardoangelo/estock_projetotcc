@@ -4,8 +4,63 @@
 
 <div class="top ">
     <div class="title">
-        <h1>Lista de Movimentações</h1>
+        <h1>Controle de Estoque</h1>
     </div>
+</div>
+
+<div style="display: none;">
+    <form id="form-create" action="/movement/create">
+        <div class="form-row">
+
+            <select name="type">
+                <option value=""></option>
+                <option value="1">Entrada</option>
+                <option value="0">Saída</option>
+            </select>
+            <input type="hidden" name="type" value="1">
+
+            <div class="form-column">
+                <label for="date">Data da movimentação</label>
+                <input type="date" name="date" required>
+            </div>
+            <div class="form-column">
+                <label for="amount">Quantidade:</label>
+                <input type="number" name="amount" id="amount" required>
+            </div>
+            <div class="form-column">
+                <label for="value">Valor:</label>
+                <input type="number" name="value" id="value" required>
+            </div>
+            <div class="form-column">
+                <label for="id_product">Selecione o produto:</label>
+                <select name="id_product" id="">
+                    <option value=""></option>
+                    @foreach($products as $p)
+                    <option value="{{ $p->id }}">
+                        {{ $p->name }}
+                    </option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="form-column">
+                <label for="id_supplier">Selecione o fornecedor:</label>
+                <select name="id_supplier" id="">
+                    <option value=""></option>
+                    @foreach($suppliers as $s)
+                    <option value="{{ $s->id }}">
+                        {{ $s->name }}
+                    </option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="form-column button-modal">
+                <input class="btn-okay" type="submit" value="Cadastrar">
+            </div>
+            <div class="form-column button-modal">
+                <input class="btn-cancel" type="button" value="Cancelar" onclick="FlexModal.selfClose(event)">
+            </div>
+        </div>
+    </form>
 </div>
 
 <div class="form-row-inout">
@@ -42,56 +97,15 @@
             </tr>
         </thead>
         <tbody>
-            @foreach($movements as $p)
+            @foreach($movements as $m)
             <tr>
-                <td>{{ $p->id }}</td>
-                <td>{{ $p->name }}</td>
-                <td>{{ $p->ncm }}</td>
-                <td>{{ $p->amount ?? 0 }} {{ $p->metric }}</td>
-                <td>R$ {{ number_format($p->average_cost,2,",",".")}}</td>
-                <td class="icons">
-                    <div onclick="showModalUpdate(this)" class="btn">
-                        <span class="material-icons-outlined" id="edit">
-                            edit
-                        </span>
-                        <div style="display: none;">
-                            <form class="form-update" action="/product/update">
-                                <input type="hidden" name="id" value="{{ $p->id }}">
-                                <div class="form-row">
-                                    <div class="form-column">
-                                        <label for="name">Nome do Produto:</label>
-                                        <input type="text" name="name" id="name" required value="{{ $p->name }}">
-                                    </div>
-                                    <div class="form-column">
-                                        <label for="ncm">NCM:</label>
-                                        <input type="text" name="ncm" id="ncm" required value="{{ $p->ncm }}">
-                                    </div>
-                                    <div class="form-column">
-                                        <label for="metric">Unidade Métrica:</label>
-                                        <select name="metric" required data-value="{{ $p->metric }}">
-                                            <option value=""></option>
-                                            <option value="m">Metro</option>
-                                            <option value="kg">Quilo</option>
-                                            <option value="lt">Litro</option>
-                                            <option value="un">Unidade</option>
-                                        </select>
-                                    </div>
-                                    <div class="form-column button-modal">
-                                        <input class="btn-okay" type="submit" value="Alterar">
-                                    </div>
-                                    <div class="form-column button-modal">
-                                        <input class="btn-cancel" type="button" value="Cancelar" onclick="FlexModal.selfClose(event)">
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                    <a href="/product/delete?id={{$p->id}}">
-                        <span class="material-icons-outlined" id="delete">
-                            backspace
-                        </span>
-                    </a>
-                </td>
+                <td>{{ $m->id }}</td>
+                <td>{{ $m->date }}</td>
+                <td>{{ $m->value }}</td>
+                <td>{{ $m->amount }}</td>
+                <td>{{ $m->id_supplier }}</td>
+                <td>{{ $m->id_product }}</td>
+
             </tr>
             @endforeach
         </tbody>
@@ -107,7 +121,7 @@
 <script>
     function showModalCreate() {
         FlexModal.show({
-            title: "Cadastro de Produtos",
+            title: "Entrada de Produtos",
             target: "#form-create",
         });
     }

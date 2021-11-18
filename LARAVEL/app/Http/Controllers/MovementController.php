@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Movement;
 use App\Models\Product;
+use App\Models\Supplier;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Http\Request;
 
@@ -23,8 +24,12 @@ class MovementController extends BaseController
     }
     public function list(){
         $movements = Movement::list();
+        $products = Product::list();
+        $suppliers = Supplier::list();
         return view("movementlist", [
-            "movements" => $movements
+            "movements" => $movements,
+            "products" => $products,
+            "suppliers" => $suppliers,
         ]);
     }
     public function update(Request $request){
@@ -40,6 +45,7 @@ class MovementController extends BaseController
     }
     public function delete(Request $request){
         $id = $request->input('id');
+        Product::updateAverageCost($id, $amount, $value);
         Movement::delete($id);
         return redirect('/movement/');
     }
