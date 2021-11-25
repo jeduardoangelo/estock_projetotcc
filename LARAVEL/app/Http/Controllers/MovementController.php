@@ -45,7 +45,6 @@ class MovementController extends BaseController
     }
     public function delete(Request $request){
         $id = $request->input('id');
-        Product::updateAverageCost($id, $amount, $value);
         Movement::delete($id);
         return redirect('/movement/');
     }

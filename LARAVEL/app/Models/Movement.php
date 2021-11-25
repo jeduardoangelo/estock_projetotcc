@@ -16,7 +16,13 @@ class Movement{
         ]);
     }
     public static function list(){
-        return DB::table("movement") -> get() -> toArray(); 
+        return DB::table("movement") -> select(
+            "movement.*", "product.name as name_p", "supplier.name as name_s"
+            ) 
+        -> join("product","product.id", "=", "movement.id_product")
+        -> join("supplier", "supplier.id", "=", "movement.id_supplier") 
+        -> get()
+        -> toArray(); 
     }
     public static function update($id, $date, $amount, $type, $value, $id_product, $id_supplier){
         DB::table("movement") -> where([

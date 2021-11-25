@@ -10,28 +10,16 @@
 
 <div style="display: none;">
     <form id="form-create" action="/movement/create">
-        <div class="form-row">
+        <div class="">
 
-            <select name="type">
+            <!-- <select name="type">
                 <option value=""></option>
                 <option value="1">Entrada</option>
                 <option value="0">Saída</option>
-            </select>
+            </select> -->
             <input type="hidden" name="type" value="1">
 
-            <div class="form-column">
-                <label for="date">Data da movimentação</label>
-                <input type="date" name="date" required>
-            </div>
-            <div class="form-column">
-                <label for="amount">Quantidade:</label>
-                <input type="number" name="amount" id="amount" required>
-            </div>
-            <div class="form-column">
-                <label for="value">Valor:</label>
-                <input type="number" name="value" id="value" required>
-            </div>
-            <div class="form-column">
+            <div class="">
                 <label for="id_product">Selecione o produto:</label>
                 <select name="id_product" id="">
                     <option value=""></option>
@@ -42,35 +30,53 @@
                     @endforeach
                 </select>
             </div>
-            <div class="form-column">
-                <label for="id_supplier">Selecione o fornecedor:</label>
-                <select name="id_supplier" id="">
-                    <option value=""></option>
-                    @foreach($suppliers as $s)
-                    <option value="{{ $s->id }}">
-                        {{ $s->name }}
-                    </option>
-                    @endforeach
-                </select>
+            <div class="">
+                <div class="">
+                    <label for="date">Data da movimentação</label>
+                    <input type="date" name="date" required>
+                </div>
+                <div class="">
+                    <label for="id_supplier">Selecione o fornecedor:</label>
+                    <select name="id_supplier" id="">
+                        <option value=""></option>
+                        @foreach($suppliers as $s)
+                        <option value="{{ $s->id }}">
+                            {{ $s->name }}
+                        </option>
+                        @endforeach
+                    </select>
+                </div>
             </div>
-            <div class="form-column button-modal">
-                <input class="btn-okay" type="submit" value="Cadastrar">
+            <div class="">
+                <div class="">
+                    <label for="amount">Quantidade:</label>
+                    <input type="number" name="amount" id="amount" required>
+                </div>
+                <div class="">
+                    <label for="value">Valor da compra:</label>
+                    <input type="number" name="value" id="value" required>
+                </div>
             </div>
-            <div class="form-column button-modal">
-                <input class="btn-cancel" type="button" value="Cancelar" onclick="FlexModal.selfClose(event)">
+            <div class="">
+                <div class="button-modal">
+                    <input class="btn-okay" type="submit" value="Cadastrar">
+                </div>
+                <div class="button-modal">
+                    <input class="btn-cancel" type="button" value="Cancelar" onclick="FlexModal.selfClose(event)">
+                </div>
             </div>
         </div>
     </form>
 </div>
 
-<div class="form-row-inout">
+<div class="form-row-mov">
     <div class="form-column-mov">
         <h2>Entrada de produtos</h2>
-        <button class="btn-inout" onclick="showModalCreate()">Adicionar entrada de produtos</button>
+        <button class="btn-mov" onclick="showModalCreate()">Adicionar entrada de produtos</button>
     </div>
     <div class="form-column-mov">
         <h2>Saída de produtos</h2>
-        <button class="btn-inout" onclick="showModalCreate()">Adicionar saída de produtos</button>
+        <button class="btn-mov" onclick="showModalCreate()">Adicionar saída de produtos</button>
     </div>
 </div>
 
@@ -88,24 +94,23 @@
     <table class="info-products">
         <thead>
             <tr>
-                <th>ID</th>
-                <th>Nome</th>
-                <th>NCM</th>
+                <th>Tipo Movimentação</th>
+                <th>Nome do Produto</th>
+                <th>Data da Movimentação</th>
+                <th>Fornecedor</th>
                 <th>Quantidade</th>
-                <th>Custo Médio</th>
-                <th>Ações</th>
+                <th>Valor</th>
             </tr>
         </thead>
         <tbody>
             @foreach($movements as $m)
             <tr>
-                <td>{{ $m->id }}</td>
-                <td>{{ $m->date }}</td>
-                <td>{{ $m->value }}</td>
+                <td>{{ $m->type == 1? "Entrada" : "Saída" }}</td>
+                <td>{{ $m->name_p }}</td>
+                <td>{{ date_format(date_create($m->date), "d/m/Y") }}</td>
+                <td>{{ $m->name_s }}</td>
                 <td>{{ $m->amount }}</td>
-                <td>{{ $m->id_supplier }}</td>
-                <td>{{ $m->id_product }}</td>
-
+                <td>R${{ number_format($m->value, 2, ",", ".") }}</td>
             </tr>
             @endforeach
         </tbody>

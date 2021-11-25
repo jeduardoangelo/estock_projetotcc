@@ -240,7 +240,6 @@ td:first-child {
 #form-create,
 .form-update {
     max-width: 300px;
-
 }
 
 .button-modal {
@@ -328,7 +327,7 @@ td:first-child {
     align-items: center;
 }
 
-.form-row-inout {
+.form-row-mov {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
@@ -337,7 +336,7 @@ td:first-child {
     flex-wrap: wrap;
 }
 
-.btn-inout {
+.btn-mov {
     width: 300px;
     height: 35px;
     background-color: #00383A;
@@ -354,3 +353,5 @@ td:first-child {
     transition-duration: 0.4s;
     justify-content: end;
 }
+
+
