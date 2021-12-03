@@ -9,18 +9,73 @@
 </div>
 
 <div style="display: none;">
-    <form id="form-create" action="/movement/create">
-        <div class="">
+    <form id="out-create" action="/movement/create">
+        <div class="form-column-mov">
 
-            <!-- <select name="type">
-                <option value=""></option>
-                <option value="1">Entrada</option>
-                <option value="0">Saída</option>
-            </select> -->
+            <input type="hidden" name="type" value="2">
+
+            <div class="form-column-mov">
+                <label for="id_product">Selecione o Produto:</label>
+                <select name="id_product" id="id_product" onchange="getProductData(this)">
+                    <option value=""></option>
+                    @foreach($products as $p)
+                    <option value="{{ $p->id }}">
+                        {{ $p->name }}
+                    </option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="form-row-mov">
+                <div class="form-column-mov">
+                    <h3>Produtos Restantes: {{ @$productData -> amount }} </h3>
+                </div>
+            </div>
+            <div class="form-row-mov">
+                <div class="form-column-mov">
+                    <label for="amount">Quantidade:</label>
+                    <input type="number" name="amount" id="amount_out" required oninput="priceCalc()">
+                </div>
+                <div class="form-column-mov">
+                    <label for="date">Data da Movimentação:</label>
+                    <input type="date" name="date" value="{{ date('Y-m-d') }}" required>
+                </div>
+
+            </div>
+            <div class="form-row-mov">
+                <div class="form-column-mov">
+                    <label for="value">Custo Médio:</label>
+                    <input type="number" name="value" id="value" required readonly value="{{ @$productData -> average_cost }}">
+                </div>
+                <div class="form-column-mov">
+                    <label for="profit">Porcentagem de Lucro:</label>
+                    <input type="number" id="profit" required oninput="priceCalc()">
+                </div>
+            </div>
+            <div class="form-row-mov">
+                <div class="form-column-mov">
+                    <h3>Valor de Venda: R$ <span id="price">0,00</span></h3>
+                </div>
+            </div>
+            <div class="form-row-mov">
+                <div class="form-column-mov button-modal">
+                    <input class="btn-okay" type="submit" value="Cadastrar">
+                </div>
+                <div class="form-column-mov button-modal">
+                    <input class="btn-cancel" type="button" value="Cancelar" onclick="FlexModal.selfClose(event)">
+                </div>
+            </div>
+        </div>
+    </form>
+
+
+
+    <form id="in-create" action="/movement/create">
+        <div class="form-column-mov">
+
             <input type="hidden" name="type" value="1">
 
-            <div class="">
-                <label for="id_product">Selecione o produto:</label>
+            <div class="form-column-mov">
+                <label for="id_product">Selecione o Produto:</label>
                 <select name="id_product" id="">
                     <option value=""></option>
                     @foreach($products as $p)
@@ -30,13 +85,13 @@
                     @endforeach
                 </select>
             </div>
-            <div class="">
-                <div class="">
-                    <label for="date">Data da movimentação</label>
-                    <input type="date" name="date" required>
+            <div class="form-row-mov">
+                <div class="form-column-mov">
+                    <label for="date">Data da Movimentação:</label>
+                    <input type="date" name="date" value="{{ date('Y-m-d') }}" required>
                 </div>
-                <div class="">
-                    <label for="id_supplier">Selecione o fornecedor:</label>
+                <div class="form-column-mov">
+                    <label for="id_supplier">Selecione o Fornecedor:</label>
                     <select name="id_supplier" id="">
                         <option value=""></option>
                         @foreach($suppliers as $s)
@@ -47,21 +102,21 @@
                     </select>
                 </div>
             </div>
-            <div class="">
-                <div class="">
+            <div class="form-row-mov">
+                <div class="form-column-mov">
                     <label for="amount">Quantidade:</label>
                     <input type="number" name="amount" id="amount" required>
                 </div>
-                <div class="">
-                    <label for="value">Valor da compra:</label>
+                <div class="form-column-mov">
+                    <label for="value">Valor da Compra:</label>
                     <input type="number" name="value" id="value" required>
                 </div>
             </div>
-            <div class="">
-                <div class="button-modal">
+            <div class="form-row-mov">
+                <div class="form-column-mov button-modal">
                     <input class="btn-okay" type="submit" value="Cadastrar">
                 </div>
-                <div class="button-modal">
+                <div class="form-column-mov button-modal">
                     <input class="btn-cancel" type="button" value="Cancelar" onclick="FlexModal.selfClose(event)">
                 </div>
             </div>
@@ -69,14 +124,14 @@
     </form>
 </div>
 
-<div class="form-row-mov">
-    <div class="form-column-mov">
-        <h2>Entrada de produtos</h2>
-        <button class="btn-mov" onclick="showModalCreate()">Adicionar entrada de produtos</button>
+<div class="modal-row-mov">
+    <div class="modal-column-mov">
+        <h2>Entrada de Produtos</h2>
+        <button class="btn-mov" onclick="showModalCreateIn()">Adicionar entrada de produtos</button>
     </div>
-    <div class="form-column-mov">
-        <h2>Saída de produtos</h2>
-        <button class="btn-mov" onclick="showModalCreate()">Adicionar saída de produtos</button>
+    <div class="modal-column-mov">
+        <h2>Saída de Produtos</h2>
+        <button class="btn-mov" onclick="showModalCreateOut()">Adicionar saída de produtos</button>
     </div>
 </div>
 
@@ -124,19 +179,42 @@
 </div>
 
 <script>
-    function showModalCreate() {
+    function showModalCreateIn() {
         FlexModal.show({
             title: "Entrada de Produtos",
-            target: "#form-create",
+            target: "#in-create",
         });
     }
 
-    function showModalUpdate(btn) {
+    function showModalCreateOut() {
         FlexModal.show({
-            title: "Alteração",
-            target: btn.querySelector(".form-update"),
+            title: "Saída de Produtos",
+            target: "#out-create",
         });
     }
+    
+    function getProductData(select) {
+        var value = select.options[select.selectedIndex].value;
+        location.href = "?id_product="+ value;
+    }
+<?php if (@$productData){?>
+    window.onload = function() {
+        let params = (new URL(document.location)).searchParams;
+        let id_product = params.get("id_product");
+        if (id_product) {
+            document.querySelector("#id_product").value = <?php echo @$productData -> id ?>;
+            showModalCreateOut();
+        }
+    }
+    function priceCalc() {
+        var profit_value = document.querySelector("#profit").value;
+        var finalPrice = <?php echo @$productData -> average_cost ?> * ((profit_value / 100) + 1);
+        finalPrice = finalPrice * document.querySelector("#amount_out").value;
+            console.log(finalPrice);
+        finalPrice = new Intl.NumberFormat('pt-BR', { maximumFractionDigits: 2, minimumFractionDigits: 2 } ).format(finalPrice)
+            document.querySelector("#price").innerHTML = finalPrice;
+    }
+<?php } ?>
 </script>
 
 @endsection

@@ -12,6 +12,7 @@ Route::get('/supplier/delete', [SupplierController::class, 'delete']);
 
 Route::get('/product/create', [ProductController::class, 'create']);
 Route::get('/product/', [ProductController::class, 'list']);
+Route::get('/product/find/', [ProductController::class, 'find']);
 Route::get('/product/update', [ProductController::class, 'update']);
 Route::get('/product/delete', [ProductController::class, 'delete']);
 

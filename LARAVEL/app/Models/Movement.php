@@ -20,7 +20,7 @@ class Movement{
             "movement.*", "product.name as name_p", "supplier.name as name_s"
             ) 
         -> join("product","product.id", "=", "movement.id_product")
-        -> join("supplier", "supplier.id", "=", "movement.id_supplier") 
+        -> leftJoin("supplier", "supplier.id", "=", "movement.id_supplier") 
         -> get()
         -> toArray(); 
     }

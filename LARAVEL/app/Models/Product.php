@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Support\Facades\DB;
+use Prophecy\Promise\ReturnPromise;
 
 class Product{
     public static function create($name, $ncm, $amount, $metric, $average_cost ){
@@ -43,13 +44,23 @@ class Product{
     }
     public static function updateAverageCost($id, $addAmount, $cost){
         $product = DB::table("product") -> find($id);
-        $totalCost = $product -> average_cost * $product -> amount;
-        $addCost = $addAmount * $cost;
-        $newAmount = $product -> amount + $addAmount;
+        $newAmount =  $product -> amount + $addAmount;
+        
+        $totalCost = static::getSumCost($id);
+        $newCost = $totalCost / $newAmount;
+
         DB::table("product") -> where([
             "id" => $id
         ]) -> update([
-            "average_cost" => ($totalCost + $addCost) / $newAmount
+            "average_cost" => $newCost
         ]);
+    }
+    public static function getSumCost($id){
+        return DB::table("movement") -> where([
+            "id_product" => $id
+        ]) -> sum("value");
+    }
+    public static function find($id){
+        return DB::table("product") -> find($id);
     }
 }

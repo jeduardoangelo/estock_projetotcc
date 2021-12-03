@@ -20,7 +20,7 @@ class ProductController extends BaseController
     public function list(){
         $products = Product::list();
         return view("productlist", [
-            "products" => $products
+            "products" => $products,
         ]);
     }
     public function update(Request $request){
@@ -37,5 +37,10 @@ class ProductController extends BaseController
         $id = $request->input('id');
         Product::delete($id);
         return redirect('/product/');
+    }
+    public function find(Request $request){
+        $id = $request->input('id');
+        $productData = Product::find($id);
+        
     }
 }

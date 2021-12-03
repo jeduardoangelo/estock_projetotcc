@@ -6,7 +6,7 @@
         <h1>Cadastro de Produtos</h1>
     </div>
     <div>
-        <button class="btn-top" onclick="showModalCreate()">Importar</button>
+        <!-- <button class="btn-top" onclick="showModalCreate()">Importar</button> -->
         <button class="btn-top" onclick="showModalCreate()">+ Produto</button>
     </div>
 </div>

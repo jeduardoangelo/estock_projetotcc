@@ -15,6 +15,10 @@ class MovementController extends BaseController
         $amount = $request->input('amount');
         $type = $request->input('type');
         $value = $request->input('value');
+        if($type == 2){
+            $value = -$value;
+            $amount = -$amount;
+        };
         $id_product = $request->input('id_product');
         $id_supplier = $request->input('id_supplier');
         Movement::create($date, $amount, $type, $value, $id_product, $id_supplier);
@@ -22,14 +26,20 @@ class MovementController extends BaseController
         Product::addAmount($id_product, $amount);
         return redirect('/movement/');
     }
-    public function list(){
+    public function list(Request $request){
+        $id = $request->input('id_product');
+        $productData = null;
+        if ($id) $productData = Product::find($id);
+        // if ($productData) dd ($productData);
         $movements = Movement::list();
+        // dd ($movements);
         $products = Product::list();
         $suppliers = Supplier::list();
         return view("movementlist", [
             "movements" => $movements,
             "products" => $products,
             "suppliers" => $suppliers,
+            "productData" => $productData
         ]);
     }
     public function update(Request $request){

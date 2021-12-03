@@ -20,7 +20,7 @@
         </div>
 
         <nav class="menu">
-            <a href="#">Dashboard</a>
+            <!-- <a href="#">Dashboard</a> -->
             <a href="/product/">Cadastro de Produtos</a>
             <a href="/movement/">Controle de Estoque</a>
             <a href="/supplier/">Cadastro de Fornecedor</a>

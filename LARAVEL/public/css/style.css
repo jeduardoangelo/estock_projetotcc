@@ -242,6 +242,10 @@ td:first-child {
     max-width: 300px;
 }
 
+#in-create {
+    max-width: 500px;
+}
+
 .button-modal {
     flex-basis: 90px;
 }
@@ -284,7 +288,6 @@ td:first-child {
 
 .form-group {
     display: flex;
-    ;
     margin: 0 15px;
     display: flex;
 }
@@ -311,7 +314,7 @@ td:first-child {
     display: flex;
     flex-direction: column;
     padding: 0 15px;
-    width: 400px;
+    width: 380px;
     color: #00383A;
 }
 
@@ -324,10 +327,26 @@ td:first-child {
     flex-direction: column;
     padding: 15px;
     color: #00383A;
-    align-items: center;
+    max-width: 600px;
 }
 
 .form-row-mov {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+
+.modal-column-mov {
+    display: flex;
+    flex-direction: column;
+    padding: 15px;
+    color: #00383A;
+    align-items: center;
+}
+
+.modal-row-mov {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
